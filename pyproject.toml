@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "project-name"
+version = "0.1.0"
+description = "Project description"
+authors = ["Gautam Rajeev <gautam@samagragovernance.in>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+poppler-utils = {version = "*", allow-prereleases = false}
+gdown = "*"
+transformers = "*"
+huggingface_hub = "*"
+timm = "*"
+pdf2image = "*"
+PyMuPDF = "*"
+pytesseract = "*"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
