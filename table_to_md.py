@@ -134,6 +134,31 @@ class TableToMD:
 
         return horizontal_line_bboxes, vertical_line_bboxes
 
+
+    def filter_non_intersecting_rectangles(self,horizontal_rects, vertical_rects):
+        # Keep a copy of the original lines for final output
+        original_horizontal_rects = horizontal_rects.copy()
+        original_vertical_rects = vertical_rects.copy()
+
+        # Use sets to keep track of indexes of intersecting lines
+        intersecting_horizontal_indexes = set()
+        intersecting_vertical_indexes = set()
+
+        # Check for intersection between horizontal and vertical lines in one pass
+        for i, h_rect in enumerate(horizontal_rects):
+            for j, v_rect in enumerate(vertical_rects):
+                if self.overlap(h_rect, v_rect):
+                    intersecting_horizontal_indexes.add(i)
+                    intersecting_vertical_indexes.add(j)
+
+        # Prepare the output lists using original line coordinates
+        intersecting_horizontal_lines = [original_horizontal_rects[i] for i in intersecting_horizontal_indexes]
+        non_intersecting_horizontal_lines = [original_horizontal_rects[i] for i in range(len(original_horizontal_rects)) if i not in intersecting_horizontal_indexes]
+        intersecting_vertical_lines = [original_vertical_rects[j] for j in intersecting_vertical_indexes]
+        non_intersecting_vertical_lines = [original_vertical_rects[j] for j in range(len(original_vertical_rects)) if j not in intersecting_vertical_indexes]
+
+        return intersecting_horizontal_lines, non_intersecting_horizontal_lines, intersecting_vertical_lines, non_intersecting_vertical_lines
+
     def get_horizontal_textlines(self, data, image):
         heights = [data['height'][i] for i in range(len(data['text'])) if int(data['conf'][i]) > 0]
         average_height = np.mean(heights)
