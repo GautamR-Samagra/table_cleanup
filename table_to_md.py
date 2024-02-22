@@ -45,7 +45,7 @@ class TableToMD:
 
     # Add other functions here...
 
-    def extract_table(self, pdf, page_num):
+    def extract_table(self, pdf, page_num,tess_lang):
         page = pdf.load_page(page_num)
         pix = page.get_pixmap(dpi=180)
         image = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
@@ -69,7 +69,7 @@ class TableToMD:
 
                     self.crop_and_save_detected_table(image, box, image_path)
                     image = Image.open(image_path)
-                    tesseract_config = '-l hin --oem 3 --psm 6'
+                    tesseract_config = '-l '+tess_lang+' --oem 3 --psm 6'
                     data = pytesseract.image_to_data(image, config=tesseract_config, output_type=pytesseract.Output.DICT)
                     horizontal_lines_bbox, vertical_line_bboxes = self.detect_borderlines(image_path)
                     text_line_bbox, text_line_height = self.get_horizontal_textlines(data, image)
