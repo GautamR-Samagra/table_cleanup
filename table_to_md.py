@@ -292,7 +292,16 @@ class TableToMD:
         df.columns = [f"Column {col}" for col in df.columns]
         df.index = [f"Row {row}" for row in df.index]
         return(df)
-  
+
+
+
+    class Rect_simple:
+	  def __init__(self, x, y, w, h):
+	        self.left = x
+	        self.right = w
+	        self.top = y
+	        self.bottom = h
+		  
     class Rectangle:
         def __init__(self, x, y, width, height):
             self.left = x
